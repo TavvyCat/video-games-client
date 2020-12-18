@@ -6,11 +6,9 @@ export const signUp = credentials => {
     method: 'POST',
     url: apiUrl + '/sign-up/',
     data: {
-      credentials: {
-        email: credentials.email,
-        password: credentials.password,
-        password_confirmation: credentials.passwordConfirmation
-      }
+      email: credentials.email,
+      password: credentials.password,
+      password_confirmation: credentials.passwordConfirmation
     }
   })
 }
@@ -20,10 +18,8 @@ export const signIn = credentials => {
     url: apiUrl + '/sign-in/',
     method: 'POST',
     data: {
-      credentials: {
-        email: credentials.email,
-        password: credentials.password
-      }
+      email: credentials.email,
+      password: credentials.password
     }
   })
 }
@@ -40,16 +36,14 @@ export const signOut = user => {
 
 export const changePassword = (passwords, user) => {
   return axios({
-    url: apiUrl + '/change-password/',
+    url: apiUrl + '/change-pw/',
     method: 'PATCH',
     headers: {
       'Authorization': `Token ${user.token}`
     },
     data: {
-      passwords: {
-        old: passwords.oldPassword,
-        new: passwords.newPassword
-      }
+      old: passwords.oldPassword,
+      new: passwords.newPassword
     }
   })
 }
