@@ -4,8 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { changePassword } from '../../api/auth'
 import messages from '../AutoDismissAlert/messages'
 
-import Form from 'react-bootstrap/Form'
-import Button from 'react-bootstrap/Button'
+import { TextField, Button } from '@material-ui/core'
 
 class ChangePassword extends Component {
   constructor () {
@@ -50,36 +49,39 @@ class ChangePassword extends Component {
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <h3>Change Password</h3>
-          <Form onSubmit={this.onChangePassword}>
-            <Form.Group controlId="oldPassword">
-              <Form.Label>Old password</Form.Label>
-              <Form.Control
-                required
-                name="oldPassword"
-                value={oldPassword}
-                type="password"
-                placeholder="Old Password"
-                onChange={this.handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="newPassword">
-              <Form.Label>New Password</Form.Label>
-              <Form.Control
-                required
-                name="newPassword"
-                value={newPassword}
-                type="password"
-                placeholder="New Password"
-                onChange={this.handleChange}
-              />
-            </Form.Group>
+          <form onSubmit={this.onSignIn} style={{ textAlign: 'center' }}>
+            <TextField
+              label="Old Password"
+              required
+              style={{ margin: 20 }}
+              type="email"
+              name="oldPassword"
+              value={oldPassword}
+              placeholder="Old Password"
+              fullWidth
+              variant='outlined'
+              onChange={this.handleChange}
+            />
+            <TextField
+              label="New Password"
+              required
+              style={{ margin: 20 }}
+              name="newPassword"
+              value={newPassword}
+              type="password"
+              placeholder="New Password"
+              fullWidth
+              variant='outlined'
+              onChange={this.handleChange}
+            />
             <Button
-              variant="primary"
-              type="submit"
+              color='secondary'
+              variant='contained'
+              type='submit'
             >
               Submit
             </Button>
-          </Form>
+          </form>
         </div>
       </div>
     )

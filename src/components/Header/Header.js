@@ -1,41 +1,35 @@
-import React, { Fragment } from 'react'
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
+import { AppBar, Tab, Tabs } from '@material-ui/core'
+import VideogameAssetIcon from '@material-ui/icons/VideogameAsset'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 
-const authenticatedOptions = (
-  <Fragment>
-    <Nav.Link href="#change-password">Change Password</Nav.Link>
-    <Nav.Link href="#sign-out">Sign Out</Nav.Link>
-  </Fragment>
-)
+const Header = ({ user, history }) => {
+  const [value, setValue] = useState(history.location.pathname)
+  // const allTabs = ['/', '/change-pw', '/sign-out', '/sign-up', '/sign-in']
 
-const unauthenticatedOptions = (
-  <Fragment>
-    <Nav.Link href="#sign-up">Sign Up</Nav.Link>
-    <Nav.Link href="#sign-in">Sign In</Nav.Link>
-  </Fragment>
-)
+  const handleChange = (event, value) => {
+    setValue(value)
+    history.push(value)
+  }
 
-const alwaysOptions = (
-  <Fragment>
-    <Nav.Link href="#/">Home</Nav.Link>
-  </Fragment>
-)
+  return (
+    <AppBar position="static" >
+      <Tabs
+        variant="fullWidth"
+        value={value}
+        onChange={handleChange}
+        aria-label="nav tabs"
+      >
+        <Tab icon={<VideogameAssetIcon fontSize="large" />} value="/" />
+        <Tab disabled/>
+        <Tab label="Change Password" value="/change-pw" style={user ? { 'display': 'inline-flex' } : { 'display': 'none' }} />
+        <Tab label="Sign Out" value="/sign-out" style={user ? { 'display': 'inline-flex' } : { 'display': 'none' }} />
+        <Tab label="Sign Up" value="/sign-up" style={user ? { 'display': 'none' } : { 'display': 'inline-flex' }} />
+        <Tab label="Sign In" value="/sign-in" style={user ? { 'display': 'none' } : { 'display': 'inline-flex' }} />
+        {/* <LinkTab label="Change Password" href="#change-pw" {...a11yProps(0)} /> */}
+      </Tabs>
+    </AppBar>
+  )
+}
 
-const Header = ({ user }) => (
-  <Navbar bg="primary" variant="dark" expand="md">
-    <Navbar.Brand href="#">
-      react-auth-template
-    </Navbar.Brand>
-    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-    <Navbar.Collapse id="basic-navbar-nav">
-      <Nav className="ml-auto">
-        { user && <span className="navbar-text mr-2">Welcome, {user.email}</span>}
-        { alwaysOptions }
-        { user ? authenticatedOptions : unauthenticatedOptions }
-      </Nav>
-    </Navbar.Collapse>
-  </Navbar>
-)
-
-export default Header
+export default withRouter(Header)
