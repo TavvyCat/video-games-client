@@ -4,8 +4,7 @@ import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 
 const Header = ({ user, history }) => {
-  const [value, setValue] = useState(history.location.pathname)
-  // const allTabs = ['/', '/change-pw', '/sign-out', '/sign-up', '/sign-in']
+  const [value, setValue] = useState('/')
 
   const handleChange = (event, value) => {
     setValue(value)
@@ -22,6 +21,7 @@ const Header = ({ user, history }) => {
       >
         <Tab icon={<VideogameAssetIcon fontSize="large" />} value="/" />
         <Tab disabled/>
+        <Tab label="Games" value="/games" style={user ? { 'display': 'inline-flex' } : { 'display': 'none' }} />
         <Tab label="Change Password" value="/change-pw" style={user ? { 'display': 'inline-flex' } : { 'display': 'none' }} />
         <Tab label="Sign Out" value="/sign-out" style={user ? { 'display': 'inline-flex' } : { 'display': 'none' }} />
         <Tab label="Sign Up" value="/sign-up" style={user ? { 'display': 'none' } : { 'display': 'inline-flex' }} />

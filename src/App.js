@@ -9,9 +9,13 @@ import SignUp from './components/SignUp/SignUp'
 import SignIn from './components/SignIn/SignIn'
 import SignOut from './components/SignOut/SignOut'
 import ChangePassword from './components/ChangePassword/ChangePassword'
+import GamesIndex from './components/Games/GamesIndex'
+import GameShow from './components/Games/GameShow'
+import GameCreate from './components/Games/GameCreate'
+import GameUpdate from './components/Games/GameUpdate'
 
 class App extends Component {
-  constructor () {
+  constructor (props) {
     super()
     this.state = {
       user: null,
@@ -64,6 +68,18 @@ class App extends Component {
           )} />
           <AuthenticatedRoute user={user} path='/change-pw' render={() => (
             <ChangePassword msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/games' exact render={() => (
+            <GamesIndex msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/games/:id' render={(props) => (
+            <GameShow msgAlert={this.msgAlert} user={user} match={props.match} />
+          )} />
+          <AuthenticatedRoute user={user} path='/game-create' render={() => (
+            <GameCreate msgAlert={this.msgAlert} user={user} />
+          )} />
+          <AuthenticatedRoute user={user} path='/game-update/:id' render={(props) => (
+            <GameUpdate msgAlert={this.msgAlert} user={user} match={props.match} />
           )} />
         </main>
       </Fragment>
