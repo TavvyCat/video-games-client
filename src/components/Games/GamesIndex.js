@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Container, Grid } from '@material-ui/core'
+import { Button, Card, Container, Fab, Grid, Tooltip } from '@material-ui/core'
+import AddIcon from '@material-ui/icons/Add'
 import { indexGames } from '../../api/games'
 
 const GamesIndex = props => {
@@ -25,6 +26,15 @@ const GamesIndex = props => {
           </Grid>
         ))}
       </Grid>
+      <Tooltip title="Add" aria-label="add">
+        <Fab color="secondary" href="/#/game-create" style={{
+          position: 'absolute',
+          bottom: '100px',
+          right: '50px'
+        }}>
+          <AddIcon />
+        </Fab>
+      </Tooltip>
     </Container>
   )
 }

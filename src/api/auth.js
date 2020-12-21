@@ -5,11 +5,7 @@ export const signUp = credentials => {
   return axios({
     method: 'POST',
     url: apiUrl + '/sign-up/',
-    data: {
-      email: credentials.email,
-      password: credentials.password,
-      password_confirmation: credentials.passwordConfirmation
-    }
+    data: credentials
   })
 }
 
@@ -17,16 +13,13 @@ export const signIn = credentials => {
   return axios({
     url: apiUrl + '/sign-in/',
     method: 'POST',
-    data: {
-      email: credentials.email,
-      password: credentials.password
-    }
+    data: credentials
   })
 }
 
 export const signOut = user => {
   return axios({
-    url: apiUrl + '/sign-out/',
+    url: `${apiUrl}/sign-out/`,
     method: 'DELETE',
     headers: {
       'Authorization': `Token ${user.token}`
