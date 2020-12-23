@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { TextField, Button, Paper, Grid } from '@material-ui/core'
 import { useCookies } from 'react-cookie'
-import { deleteReview, showReview, updateReview } from '../../api/reviews'
+import { TextField, Button, Paper, Grid } from '@material-ui/core'
 import { Rating } from '@material-ui/lab'
+import { deleteReview, showReview, updateReview } from '../../api/reviews'
+import messages from '../AutoDismissAlert/messages'
 
 const ReviewOptions = props => {
   const [review, setReview] = useState({
@@ -15,6 +16,7 @@ const ReviewOptions = props => {
   const [cookies] = useCookies(['user'])
   const id = props.reviewId
   const token = cookies.user.token
+  const msgAlert = props.msgAlert
 
   useEffect(() => {
     showReview(id, token)
@@ -27,15 +29,15 @@ const ReviewOptions = props => {
           game_id: reviewData.game_id
         })
       })
-      .then(() => console.log(review.game_id))
   }, [])
 
   const handleSubmit = e => {
     e.preventDefault()
 
     updateReview(id, review, token)
-      .then(() => props.closeModal())
-      .catch(console.error)
+      .then(() => msgAlert({ message: messages.reviewUpdateSuccess }))
+      .then(props.closeModal())
+      .catch(() => msgAlert({ message: messages.reviewUpdateFailure }))
   }
 
   const handleChange = e => {
@@ -44,14 +46,19 @@ const ReviewOptions = props => {
 
   const handleDelete = () => {
     deleteReview(id, token)
-      .then()
+      .then(() => msgAlert({ message: messages.reviewDeleteSuccess }))
+      .then(props.closeModal())
+      .catch(() => msgAlert({ message: messages.reviewDeleteFailure }))
   }
 
   return (
     <Paper>
       <form onSubmit={handleSubmit} style={{ textAlign: 'center' }}>
-        <Grid container>
+        <Grid container justify="center">
           <Grid item xs={12}>
+            <h4 style={{ marginTop: 10 }}>Update Review</h4>
+          </Grid>
+          <Grid item xs={10}>
             <TextField
               name="head"
               label="Head"
@@ -60,21 +67,24 @@ const ReviewOptions = props => {
               placeholder="Review Head"
               value={review.head}
               required
-              style={{ margin: 20 }}
+              fullWidth
+              style={{ margin: 10 }}
               onChange={handleChange}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={10}>
             <TextField
               name="body"
-              label="body"
+              label="Body"
               type="text"
               variant="outlined"
-              placeholder="body"
+              placeholder="Your review here..."
               value={review.body}
               required
+              fullWidth
+              multiline
               rows={10}
-              style={{ margin: 20 }}
+              style={{ margin: 10 }}
               onChange={handleChange}
             />
           </Grid>
@@ -83,7 +93,7 @@ const ReviewOptions = props => {
               name="rating"
               precision={0.5}
               value={parseFloat(review.rating)}
-              style={{ margin: 20 }}
+              style={{ margin: 5 }}
               onChange={handleChange}
             />
           </Grid>
@@ -93,7 +103,7 @@ const ReviewOptions = props => {
           <Grid item xs={12}>
             <h4>Delete Comment</h4>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{ marginBottom: 10 }}>
             <Button variant="contained" color="primary" onClick={handleDelete}>Delete</Button>
           </Grid>
         </Grid>

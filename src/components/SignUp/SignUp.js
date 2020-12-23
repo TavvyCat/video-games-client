@@ -35,10 +35,7 @@ class SignUp extends Component {
       }))
       .then(() => history.push('/'))
       .catch(() => {
-        this.setState({ email: '', password: '', passwordConfirmation: '' })
-        msgAlert({
-          message: messages.signUpFailure
-        })
+        msgAlert({ message: messages.signUpFailure })
       })
   }
 

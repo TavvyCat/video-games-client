@@ -30,12 +30,9 @@ class SignIn extends Component {
         setUser(res.data.user)
         msgAlert({ message: `Welcome, ${res.data.user.username}!` })
       })
-      .then(() => history.push('/'))
+      .then(() => history.push('/games'))
       .catch(() => {
-        this.setState({ email: '', password: '' })
-        msgAlert({
-          message: messages.signInFailure
-        })
+        msgAlert({ message: messages.signInFailure })
       })
   }
 

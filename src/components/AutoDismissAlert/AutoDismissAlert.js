@@ -29,7 +29,7 @@ class AutoDismissAlert extends React.Component {
     if (!this.state.open) {
       setTimeout(() => {
         deleteAlert(id)
-      }, 1000)
+      }, 500)
     }
 
     return (

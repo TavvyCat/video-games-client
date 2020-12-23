@@ -19,7 +19,7 @@ const GameShow = props => {
         setGame(res.data.game)
       })
       .catch(console.error)
-  }, [])
+  }, [modalOpen])
 
   const openModal = (id) => {
     setReviewId(id)
@@ -40,14 +40,19 @@ const GameShow = props => {
           className='modal-style'
         >
           <div>
-            <ReviewOptions reviewId={reviewId} user={props.user} gameId={id} closeModal={closeModal}/>
+            <ReviewOptions
+              reviewId={reviewId}
+              user={props.user}
+              gameId={id}
+              closeModal={closeModal}
+              msgAlert={props.msgAlert}
+            />
           </div>
         </Modal>
         {game && (
           <div>
-            <h3>Game Show</h3>
             <Container key={game.id}>
-              <h2>{game.title}</h2>
+              <h2 className="mt-5">{game.title}</h2>
               <p>{game.description}</p>
               <Grid container spacing={3} justify="space-between">
                 {game.reviews.map(review => (
