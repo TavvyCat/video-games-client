@@ -19,6 +19,7 @@ import ReviewCreate from './components/Reviews/ReviewCreate'
 const App = props => {
   const [msgAlerts, setMsgAlerts] = useState([])
   const [cookies, setCookie, removeCookie] = useCookies(['user'])
+  console.log(cookies.user)
 
   const setUser = user => {
     setCookie('user', user)

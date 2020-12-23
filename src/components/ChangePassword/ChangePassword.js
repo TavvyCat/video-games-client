@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { changePassword } from '../../api/auth'
-import messages from '../AutoDismissAlert/messages'
 
 import { TextField, Button } from '@material-ui/core'
+import messages from '../AutoDismissAlert/messages'
 
 class ChangePassword extends Component {
   constructor () {
@@ -27,17 +27,13 @@ class ChangePassword extends Component {
 
     changePassword(this.state, user)
       .then(() => msgAlert({
-        heading: 'Change Password Success',
-        message: messages.changePasswordSuccess,
-        variant: 'success'
+        message: messages.changePasswordSuccess
       }))
       .then(() => history.push('/'))
-      .catch(error => {
+      .catch(() => {
         this.setState({ oldPassword: '', newPassword: '' })
         msgAlert({
-          heading: 'Change Password Failed with error: ' + error.message,
-          message: messages.changePasswordFailure,
-          variant: 'danger'
+          message: messages.changePasswordFailure
         })
       })
   }
@@ -54,7 +50,7 @@ class ChangePassword extends Component {
               label="Old Password"
               required
               style={{ margin: 20 }}
-              type="email"
+              type="password"
               name="oldPassword"
               value={oldPassword}
               placeholder="Old Password"

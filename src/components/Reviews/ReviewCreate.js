@@ -61,7 +61,7 @@ const ReviewCreate = props => {
         <Rating
           name="rating"
           precision={0.5}
-          value={review.rating}
+          value={parseFloat(review.rating)}
           style={{ margin: 20 }}
           onChange={handleChange}
         />

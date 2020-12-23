@@ -8,11 +8,14 @@ export const indexGames = () => {
   })
 }
 
-export const createGame = (gameData) => {
+export const createGame = (gameData, token) => {
   return axios({
     method: 'POST',
     url: `${apiUrl}/games/`,
-    data: gameData
+    data: gameData,
+    headers: {
+      Authorization: `Token ${token}`
+    }
   })
 }
 

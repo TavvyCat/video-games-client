@@ -28,7 +28,7 @@ const GamesIndex = props => {
       </Grid>
       <Tooltip title="Add" aria-label="add">
         <Fab color="secondary" href="/#/game-create" style={{
-          position: 'absolute',
+          position: 'fixed',
           bottom: '100px',
           right: '50px'
         }}>

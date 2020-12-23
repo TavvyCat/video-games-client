@@ -14,7 +14,7 @@ const GameCreate = props => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    createGame(game)
+    createGame(game, props.user.token)
       .then(res => {
         setCreatedId(res.data.game.id)
       })
