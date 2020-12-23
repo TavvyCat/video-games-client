@@ -15,6 +15,7 @@ import GameShow from './components/Games/GameShow'
 import GameCreate from './components/Games/GameCreate'
 import GameUpdate from './components/Games/GameUpdate'
 import ReviewCreate from './components/Reviews/ReviewCreate'
+import HomePage from './components/Home/Home'
 
 const App = props => {
   const [msgAlerts, setMsgAlerts] = useState([])
@@ -55,6 +56,7 @@ const App = props => {
         />
       ))}
       <main className="container">
+        <Route path='/' exact component={HomePage} />
         <Route path='/sign-up' render={() => (
           <SignUp msgAlert={msgAlert} setUser={setUser} />
         )} />
