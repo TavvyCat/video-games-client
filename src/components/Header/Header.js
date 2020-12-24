@@ -36,7 +36,6 @@ const Header = ({ user, history }) => {
         <Tab label="Sign Out" value="/sign-out" style={user ? { 'display': 'inline-flex' } : { 'display': 'none' }} />
         <Tab label="Sign Up" value="/sign-up" style={user ? { 'display': 'none' } : { 'display': 'inline-flex' }} />
         <Tab label="Sign In" value="/sign-in" style={user ? { 'display': 'none' } : { 'display': 'inline-flex' }} />
-        {/* <LinkTab label="Change Password" href="#change-pw" {...a11yProps(0)} /> */}
       </Tabs>
     </AppBar>
   )

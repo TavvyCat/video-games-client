@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Card, Container, Divider, Fab, Grid, Tooltip } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { indexGames } from '../../api/games'
+import { NavLink } from 'react-router-dom'
 
 const GamesIndex = props => {
   const [games, setGames] = useState(null)
@@ -22,21 +23,25 @@ const GamesIndex = props => {
               <h3>{game.title}</h3>
               <Divider />
               <p>${game.price.toFixed(2)}</p>
-              <Button style={{ float: 'right' }} variant="outlined" color="secondary" href={`/#/games/${game.id}`}>See Details</Button>
+              <NavLink to={`/games/${game.id}`}>
+                <Button style={{ float: 'right' }} variant="outlined" color="secondary">See Details</Button>
+              </NavLink>
             </Card>
           </Grid>
         ))}
       </Grid>
-      <Tooltip title="Add Game" aria-label="add new game">
-        <Fab color="secondary" href="/#/game-create" style={{
-          position: 'fixed',
-          bottom: '50px',
-          left: '50%',
-          marginLeft: '-28px'
-        }}>
-          <AddIcon />
-        </Fab>
-      </Tooltip>
+      <NavLink to="/game-create">
+        <Tooltip title="Add Game" aria-label="add new game">
+          <Fab color="secondary" style={{
+            position: 'fixed',
+            bottom: '50px',
+            left: '50%',
+            marginLeft: '-28px'
+          }}>
+            <AddIcon />
+          </Fab>
+        </Tooltip>
+      </NavLink>
     </Container>
   )
 }

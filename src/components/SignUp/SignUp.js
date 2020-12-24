@@ -29,7 +29,7 @@ class SignUp extends Component {
 
     signUp(this.state)
       .then(() => signIn(this.state))
-      .then(res => setUser({ user: res.data.user }))
+      .then(res => setUser(res.data.user))
       .then(() => msgAlert({
         message: messages.signUpSuccess
       }))

@@ -6,6 +6,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import '../../index.scss'
 import { showGame } from '../../api/games'
 import ReviewOptions from '../Reviews/ReviewOptions'
+import { NavLink } from 'react-router-dom'
 
 const GameShow = props => {
   const [game, setGame] = useState(null)
@@ -54,6 +55,7 @@ const GameShow = props => {
             <Container key={game.id}>
               <h2 className="mt-5">{game.title}</h2>
               <p>{game.description}</p>
+              <h4 style={{ textAlign: 'center', margin: '30px auto' }}>Reviews</h4>
               <Grid container spacing={3} justify="space-between">
                 {game.reviews.map(review => (
                   <Grid key={review.id} item xs={12} md={6}>
@@ -68,15 +70,17 @@ const GameShow = props => {
                 ))}
               </Grid>
             </Container>
-            <Tooltip title="Add Review" aria-label="add review">
-              <Fab color="secondary" href={`/#/review-create/${game.id}`} style={{
-                position: 'fixed',
-                bottom: '50px',
-                right: '50px'
-              }}>
-                <AddIcon />
-              </Fab>
-            </Tooltip>
+            <NavLink to={`/review-create/${game.id}`}>
+              <Tooltip title="Add Review" aria-label="add review">
+                <Fab color="secondary" style={{
+                  position: 'fixed',
+                  bottom: '50px',
+                  right: '50px'
+                }}>
+                  <AddIcon />
+                </Fab>
+              </Tooltip>
+            </NavLink>
           </div>
         )}
       </Container>
