@@ -1,1 +1,16 @@
 @import '~bootstrap/scss/bootstrap';
+
+.modal-style {
+  width: 50%;
+  height: 70vh;
+  margin-left: 25%;
+  margin-top: 15vh;
+}
+
+@media (max-width: 700px) {
+  .modal-style {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 15%;
+  }
+}

@@ -1,13 +1,11 @@
 import React from 'react'
-import Alert from 'react-bootstrap/Alert'
-
-import './AutoDismissAlert.scss'
+import { Snackbar } from '@material-ui/core'
 
 class AutoDismissAlert extends React.Component {
   constructor (props) {
     super(props)
     this.state = {
-      show: true
+      open: true
     }
     this.timeout = null
   }
@@ -22,32 +20,25 @@ class AutoDismissAlert extends React.Component {
     clearTimeout(this.timeout)
   }
 
-  handleClose = () => this.setState({ show: false })
+  handleClose = () => this.setState({ open: false })
 
   render () {
-    const { variant, heading, message, deleteAlert, id } = this.props
+    const { message, deleteAlert, id } = this.props
 
     // Delete this alert after the fade animation time (300 ms by default)
-    if (!this.state.show) {
+    if (!this.state.open) {
       setTimeout(() => {
         deleteAlert(id)
-      }, 300)
+      }, 500)
     }
 
     return (
-      <Alert
-        dismissible
-        show={this.state.show}
-        variant={variant}
+      <Snackbar
+        message={message}
+        open={this.state.open}
         onClose={this.handleClose}
       >
-        <div className="container">
-          <Alert.Heading>
-            {heading}
-          </Alert.Heading>
-          <p className="alert-body">{message}</p>
-        </div>
-      </Alert>
+      </Snackbar>
     )
   }
 }

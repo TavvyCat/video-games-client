@@ -12,6 +12,7 @@ class SignUp extends Component {
 
     this.state = {
       email: '',
+      username: '',
       password: '',
       passwordConfirmation: ''
     }
@@ -28,31 +29,24 @@ class SignUp extends Component {
 
     signUp(this.state)
       .then(() => signIn(this.state))
-      .then(res => setUser(res.data.user))
+      .then(res => setUser({ user: res.data.user }))
       .then(() => msgAlert({
-        heading: 'Sign Up Success',
-        message: messages.signUpSuccess,
-        variant: 'success'
+        message: messages.signUpSuccess
       }))
       .then(() => history.push('/'))
-      .catch(error => {
-        this.setState({ email: '', password: '', passwordConfirmation: '' })
-        msgAlert({
-          heading: 'Sign Up Failed with error: ' + error.message,
-          message: messages.signUpFailure,
-          variant: 'danger'
-        })
+      .catch(() => {
+        msgAlert({ message: messages.signUpFailure })
       })
   }
 
   render () {
-    const { email, password, passwordConfirmation } = this.state
+    const { email, username, password, passwordConfirmation } = this.state
 
     return (
       <div className="row">
         <div className="col-sm-10 col-md-8 mx-auto mt-5">
           <h3>Sign Up</h3>
-          <form onSubmit={this.onSignIn} style={{ textAlign: 'center' }}>
+          <form onSubmit={this.onSignUp} style={{ textAlign: 'center' }}>
             <TextField
               label="Email Address"
               required
@@ -61,6 +55,18 @@ class SignUp extends Component {
               name="email"
               value={email}
               placeholder="Enter email"
+              fullWidth
+              variant='outlined'
+              onChange={this.handleChange}
+            />
+            <TextField
+              label="Username"
+              required
+              style={{ margin: 20 }}
+              type="text"
+              name="username"
+              value={username}
+              placeholder="Create username"
               fullWidth
               variant='outlined'
               onChange={this.handleChange}
