@@ -5,7 +5,12 @@ export const signUp = credentials => {
   return axios({
     method: 'POST',
     url: apiUrl + '/sign-up/',
-    data: credentials
+    data: {
+      email: credentials.email,
+      username: credentials.username,
+      password: credentials.password,
+      password_confirmation: credentials.passwordConfirmation
+    }
   })
 }
 
