@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Container, Divider, Grid, Paper, Tooltip, Fab, Modal } from '@material-ui/core'
+import { Container, Divider, Grid, Paper, Tooltip, Fab, Modal, Chip, Avatar } from '@material-ui/core'
 import { Rating } from '@material-ui/lab'
 import AddIcon from '@material-ui/icons/Add'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
@@ -7,12 +7,16 @@ import '../../index.scss'
 import { showGame } from '../../api/games'
 import ReviewOptions from '../Reviews/ReviewOptions'
 import { NavLink } from 'react-router-dom'
+import { createTag, deleteTag } from '../../api/tags'
+import messages from '../AutoDismissAlert/messages'
 
 const GameShow = props => {
   const [game, setGame] = useState(null)
   const [modalOpen, setModalOpen] = useState(false)
   const [reviewId, setReviewId] = useState(null)
-  const id = props.match.params.id
+  const [renderer, render] = useState(0)
+  const { user, match, msgAlert } = props
+  const id = match.params.id
 
   useEffect(() => {
     showGame(id)
@@ -20,7 +24,7 @@ const GameShow = props => {
         setGame(res.data.game)
       })
       .catch(console.error)
-  }, [modalOpen])
+  }, [modalOpen, renderer])
 
   const openModal = (id) => {
     setReviewId(id)
@@ -29,6 +33,52 @@ const GameShow = props => {
 
   const closeModal = () => {
     setModalOpen(false)
+  }
+
+  const averageRating = (reviews) => {
+    if (reviews.length === 0) {
+      return 0
+    } else {
+      return Math.round((reviews.reduce((accumulator, currentElement) => {
+        return accumulator + currentElement.rating
+      }, 0) / reviews.length) * 2) / 2
+    }
+  }
+
+  const tags = tags => {
+    const tagsTally = tags.reduce((tally, current) => {
+      tally[current.name] = (tally[current.name] || 0) + 1
+      return tally
+    }, {})
+    console.log(tagsTally)
+    return tagsTally
+  }
+
+  const handleTag = (tagName) => {
+    const tag = game.tags.filter(tag => {
+      if (tag.name === tagName && tag.owner === user.id) {
+        return true
+      } else return false
+    })
+    if (tag.length === 0) {
+      createTag({ name: tagName, game_id: game.id }, user.token)
+        .then(() => msgAlert({
+          message: messages.tagCreateSuccess
+        }))
+        .then(() => render(Math.random()))
+        .catch(() => msgAlert({
+          message: messages.tagCreateFailure
+        }))
+    } else {
+      deleteTag(tag[0].id, user.token)
+        .then(() => msgAlert({
+          message: messages.tagDeleteSuccess
+        }))
+        .then(() => render(Math.random()))
+        .catch(() => msgAlert({
+          message: messages.tagDeleteFailure
+        }))
+    }
   }
 
   return (
@@ -52,9 +102,16 @@ const GameShow = props => {
         </Modal>
         {game && (
           <div>
-            <Container key={game.id}>
-              <h2 className="mt-5">{game.title}</h2>
-              <p>{game.description}</p>
+            <Container key={game.id} className="text-center">
+              <h2 className="mt-5 text-center">{game.title}</h2>
+              <div className="my-4 text-center">
+                {Object.entries(tags(game.tags)).map(([name, count]) => (
+                  <Chip key={name} className="mx-1" label={name} avatar={<Avatar>{count}</Avatar>} onClick={() => handleTag(name)} />
+                ))}
+              </div>
+              <h5>Overall Rating</h5>
+              <Rating readOnly={true} value={averageRating(game.reviews)} precision={0.5} />
+              <p className="my-5">{game.description}</p>
               <h4 style={{ textAlign: 'center', margin: '30px auto' }}>Reviews</h4>
               <Grid container spacing={3} justify="space-between">
                 {game.reviews.map(review => (
@@ -75,7 +132,8 @@ const GameShow = props => {
                 <Fab color="secondary" style={{
                   position: 'fixed',
                   bottom: '50px',
-                  right: '50px'
+                  left: '50%',
+                  marginLeft: '-28px'
                 }}>
                   <AddIcon />
                 </Fab>
