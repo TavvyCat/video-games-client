@@ -12,6 +12,9 @@ export default {
   reviewCreateSuccess: 'Review was successfully created. Thank you for your contribution!',
   reviewCreateFailure: 'Review was not created. Please check all fields.',
   gameCreateSuccess: 'Game was successfully created. Thank you for your contribution!',
-  gameCreateFailure: 'Game was not created. Please check all fields.'
-
+  gameCreateFailure: 'Game was not created. Please check all fields.',
+  tagCreateSuccess: 'Tag was added. Thank you for your contribution!',
+  tagCreateFailure: 'Tag was not added. Please try signing out and in.',
+  tagDeleteSuccess: 'Tag was removed. Thank you for your contribution!',
+  tagDeleteFailure: 'Tag was not removed. Please try signing out and in.'
 }

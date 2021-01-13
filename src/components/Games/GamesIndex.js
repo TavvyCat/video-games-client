@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Card, Container, Divider, Fab, Grid, Tooltip } from '@material-ui/core'
+import { Avatar, Button, Card, Chip, Container, Divider, Fab, Grid, Tooltip } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
 import { indexGames } from '../../api/games'
 import { NavLink } from 'react-router-dom'
@@ -13,6 +13,15 @@ const GamesIndex = props => {
       .catch(console.error)
   }, [])
 
+  const tags = tags => {
+    const tagsTally = tags.reduce((tally, current) => {
+      tally[current.name] = (tally[current.name] || 0) + 1
+      return tally
+    }, {})
+    console.log(tagsTally)
+    return tagsTally
+  }
+
   return (
     <Container>
       <h2 className="text-center my-5">Games</h2>
@@ -20,12 +29,17 @@ const GamesIndex = props => {
         {games && games.map(game => (
           <Grid item key={game.id} xs={12} md={6} lg={4}>
             <Card className="p-4" raised>
-              <h3>{game.title}</h3>
-              <Divider />
-              <p>${game.price.toFixed(2)}</p>
+              <h3 className="text-center mb-3">{game.title}</h3>
+              <Divider className="mb-4"/>
+              <div className="mb-4 text-center">
+                {Object.entries(tags(game.tags)).map(([name, count]) => (
+                  <Chip key={name} className="mx-1" label={name} avatar={<Avatar>{count}</Avatar>}/>
+                ))}
+              </div>
               <NavLink to={`/games/${game.id}`}>
                 <Button style={{ float: 'right' }} variant="outlined" color="secondary">See Details</Button>
               </NavLink>
+              <p>${game.price.toFixed(2)}</p>
             </Card>
           </Grid>
         ))}
