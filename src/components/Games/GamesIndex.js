@@ -40,8 +40,9 @@ const GamesIndex = props => {
 
   const handleSearch = () => {
     const filteredGames = games.filter(game => (
-      game.title.includes(search) ||
-      game.tags.some(tag => (tag.owner === props.user.id && tag.name.includes(search)))
+      game.title.toUpperCase().includes(search.toUpperCase()) ||
+      game.tags.some(tag => (
+        tag.owner === props.user.id && tag.name.toUpperCase().includes(search.toUpperCase())))
     ))
     setGames(filteredGames)
   }
