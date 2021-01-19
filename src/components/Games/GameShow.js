@@ -63,7 +63,7 @@ const GameShow = props => {
     return tagsTally
   }
 
-  const handleTag = (tagName) => {
+  const handleTag = (tagName, isCreate) => {
     const tag = game.tags.filter(tag => {
       if (tag.name === tagName && tag.owner === user.id) {
         return true
@@ -75,9 +75,12 @@ const GameShow = props => {
           message: messages.tagCreateSuccess
         }))
         .then(() => render(Math.random()))
+        .then(() => setTagModalOpen(false))
         .catch(() => msgAlert({
           message: messages.tagCreateFailure
         }))
+    } else if (isCreate) {
+      msgAlert({ message: 'Tag Already Exists' })
     } else {
       deleteTag(tag[0].id, user.token)
         .then(() => msgAlert({
@@ -117,6 +120,7 @@ const GameShow = props => {
         >
           <div>
             <TagCreate
+              handleTag={handleTag}
               user={props.user}
               gameId={id}
               closeModal={closeTagModal}
@@ -130,7 +134,7 @@ const GameShow = props => {
               <h2 className="mt-5 text-center">{game.title}</h2>
               <div className="my-4 text-center">
                 {Object.entries(tags(game.tags)).map(([name, count]) => (
-                  <Chip key={name} className="mx-1" label={name} avatar={<Avatar>{count}</Avatar>} onClick={() => handleTag(name)} />
+                  <Chip key={name} className="mx-1" label={name} avatar={<Avatar>{count}</Avatar>} onClick={() => handleTag(name, false)} />
                 ))}
                 <Tooltip title="Add Tag" aria-label="add tag">
                   <Fab size="small" color="secondary" onClick={openTagModal} >

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Paper, Grid, TextField, Button } from '@material-ui/core'
-import { createTag } from '../../api/tags'
-import messages from '../AutoDismissAlert/messages'
+// import { createTag } from '../../api/tags'
+// import messages from '../AutoDismissAlert/messages'
 
 const TagCreate = props => {
   const [tagName, setTagName] = useState('')
@@ -9,16 +9,16 @@ const TagCreate = props => {
   const handleSubmit = e => {
     e.preventDefault()
 
-    console.log(tagName, props.gameId, props.user.token)
+    props.handleTag(tagName, true)
 
-    createTag({ name: tagName, game_id: props.gameId }, props.user.token)
-      .then(() => props.msgAlert({
-        message: messages.tagCreateSuccess
-      }))
-      .then(props.closeModal())
-      .catch(() => props.msgAlert({
-        message: messages.tagCreateFailure
-      }))
+    // createTag({ name: tagName, game_id: props.gameId }, props.user.token)
+    //   .then(() => props.msgAlert({
+    //     message: messages.tagCreateSuccess
+    //   }))
+    //   .then(props.closeModal())
+    //   .catch(() => props.msgAlert({
+    //     message: messages.tagCreateFailure
+    //   }))
   }
 
   const handleChange = e => {
