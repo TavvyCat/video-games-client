@@ -62,7 +62,7 @@ const GamesIndex = props => {
               <h3 className="text-center mb-3">{game.title}</h3>
               <Divider className="mb-4"/>
               <div className="mb-4 text-center">
-                {Object.entries(tags(game.tags)).map(([name, count]) => (
+                {game.tags && Object.entries(tags(game.tags)).map(([name, count]) => (
                   <Chip key={name} className="mx-1" label={name} avatar={<Avatar>{count}</Avatar>}/>
                 ))}
               </div>
