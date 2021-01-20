@@ -101,7 +101,7 @@ const ReviewOptions = props => {
             <Button type="submit" variant="contained" color="secondary" className="mb-4">Update</Button>
           </Grid>
           <Grid item xs={12}>
-            <h4>Delete Comment</h4>
+            <h4>Delete Review</h4>
           </Grid>
           <Grid item xs={12} style={{ marginBottom: 10 }}>
             <Button variant="contained" color="primary" onClick={handleDelete}>Delete</Button>

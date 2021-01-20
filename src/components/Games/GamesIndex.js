@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { Avatar, Button, Card, Chip, Container, Divider, Fab, Grid, Tooltip } from '@material-ui/core'
+import { Avatar, Button, Card, Chip, Divider, Fab, Grid, Tooltip } from '@material-ui/core'
 import AddIcon from '@material-ui/icons/Add'
+import SearchBar from 'material-ui-search-bar'
 import { indexGames } from '../../api/games'
 import { NavLink } from 'react-router-dom'
 
 const GamesIndex = props => {
   const [games, setGames] = useState(null)
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     indexGames()
@@ -18,13 +20,41 @@ const GamesIndex = props => {
       tally[current.name] = (tally[current.name] || 0) + 1
       return tally
     }, {})
-    console.log(tagsTally)
     return tagsTally
   }
 
+  const handleChange = (e) => {
+    setSearch(e)
+    if (e === '') {
+      indexGames()
+        .then(res => setGames(res.data.games))
+        .catch(console.error)
+    }
+  }
+
+  const handleCancel = () => {
+    indexGames()
+      .then(res => setGames(res.data.games))
+      .catch(console.error)
+  }
+
+  const handleSearch = () => {
+    const filteredGames = games.filter(game => (
+      game.title.toUpperCase().includes(search.toUpperCase()) ||
+      game.tags.some(tag => (
+        tag.owner === props.user.id && tag.name.toUpperCase().includes(search.toUpperCase())))
+    ))
+    setGames(filteredGames)
+  }
+
   return (
-    <Container>
-      <h2 className="text-center my-5">Games</h2>
+    <Grid container justify="center" >
+      <Grid item xs={12}>
+        <h2 className="text-center my-5">Games</h2>
+      </Grid>
+      <SearchBar
+        placeholder="Search by name of game or tag" className="mb-5 w-50" onCancelSearch={handleCancel}
+        value={search} onChange={handleChange} onRequestSearch={handleSearch} />
       <Grid container spacing={2} justify="space-around">
         {games && games.map(game => (
           <Grid item key={game.id} xs={12} md={6} lg={4}>
@@ -56,7 +86,7 @@ const GamesIndex = props => {
           </Fab>
         </Tooltip>
       </NavLink>
-    </Container>
+    </Grid>
   )
 }
 
