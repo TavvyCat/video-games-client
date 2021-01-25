@@ -133,7 +133,7 @@ const GameShow = props => {
             <Container key={game.id} className="text-center">
               <h2 className="mt-5 text-center">{game.title}</h2>
               <div className="my-4 text-center">
-                {Object.entries(tags(game.tags)).map(([name, count]) => (
+                {game.tags && Object.entries(tags(game.tags)).map(([name, count]) => (
                   <Chip key={name} className="mx-1" label={name} avatar={<Avatar>{count}</Avatar>} onClick={() => handleTag(name, false)} />
                 ))}
                 <Tooltip title="Add Tag" aria-label="add tag">
